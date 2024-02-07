@@ -5,6 +5,11 @@ import NavBar from './NavBar';
 import AddUser from './AddUser';
 import AddTask from './AddTask';
 import AddCategory from './AddCategory';
+import AddForm from './AddForm';
+import UpdateForm from './UpdateForm';
+import LogOut from './LogOut';
+
+
 
 function App() {
   return (
@@ -16,6 +21,10 @@ function App() {
           <Route path="/tasks/add" component={AddTask} />
           <Route path="/categories/add" component={AddCategory} />
           <Route path="/navbar" component={NavBar} />
+          <Route path="/addform" component={AddForm} />
+          <Route path="/updateform" component={UpdateForm} />
+          <Route path="/logout" component={LogOut} />
+
         </Routes>  
 
         
