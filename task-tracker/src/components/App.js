@@ -8,6 +8,7 @@ import AddCategory from './AddCategory';
 import AddForm from './AddForm';
 import UpdateForm from './UpdateForm';
 import LogOut from './LogOut';
+import TaskForm from './TaskForm';
 
 
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/addform" component={AddForm} />
           <Route path="/updateform" component={UpdateForm} />
           <Route path="/logout" component={LogOut} />
+          <Route path="/taskform" element={<TaskForm/> } /> 
 
         </Routes>  
 
