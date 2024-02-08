@@ -1,13 +1,104 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Add this CSS to your stylesheet or in your component's style block */
+
+nav {
+  background-color: #0074cc; /* Replace with your preferred blue color */
+  padding: 10px;
+  color: white;
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.logo {
+  font-size: 24px; /* Adjust the font size as needed */
+  font-weight: bold;
+  margin-bottom: 10px; /* Optional spacing between the logo and the navigation links */
 }
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  display: inline;
+  margin-right: 15px;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(247, 247, 247);
+}
+
+input {
+  padding: 5px;
+  margin-right: 5px;
+}
+
+button {
+  padding: 5px 10px;
+  background-color: rgb(250, 248, 248);
+  color: #0074cc; /* Same as the background color for contrast */
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Optional: Style for active link */
+a.active {
+  border-bottom: 2px solid rgb(248, 9, 9);
+}
+
+/* Add this CSS to style your TaskForm and Task components as cards */
+
+/* Styles for TaskForm container */
+div {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h2 {
+  text-align: center;
+}
+
+/* Styles for Task card */
+div > div {
+  border: 1px solid #817878;
+  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+h3 {
+  color: #333;
+}
+
+p {
+  margin: 10px 0;
+}
+
+strong {
+  font-weight: bold;
+}
+
+/* Style the Link button */
+Link {
+  display: inline-block;
+  padding: 8px 16px;
+  margin-top: 10px;
+  background-color: #007BFF;
+  color: #170774;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+Link:hover {
+  background-color: #0056b3;
+}
+
+
+
+
+

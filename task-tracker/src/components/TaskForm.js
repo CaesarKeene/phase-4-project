@@ -81,7 +81,7 @@ function Task({ task, fetchUserName, fetchCategoryData }) {
       <p><strong>Priority:</strong> {task.priority}</p>
       <p><strong>Category:</strong> {categoryData.previous_category ? categoryData.previous_category.name : 'None'}</p>
       <p><strong>User:</strong> {username}</p>
-      <Link to={`/update/${task.id}`}>Update Task</Link> {/* Link to UpdateForm.js */}
+      <Link to={`/update/${task.id}`}style={{color:'blue'}}>Update Task</Link> {/* Link to UpdateForm.js */}
     </div>
   );
 }
