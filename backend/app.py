@@ -148,7 +148,11 @@ def category_detail(category_id):
         return jsonify({'error': 'Category not found'}), 404
 
     if request.method == 'GET':
-        return jsonify({'id': category.id, 'name': category.name})
+        # Fetch the previous category
+        previous_category = Category.query.filter(Category.id < category_id).order_by(Category.id.desc()).first()
+        previous_category_data = {'id': previous_category.id, 'name': previous_category.name} if previous_category else None
+        
+        return jsonify({'id': category.id, 'name': category.name, 'previous_category': previous_category_data})
 
     elif request.method == 'DELETE':
         db.session.delete(category)
@@ -236,5 +240,5 @@ def tasks():
 
 
 if __name__ == '__main__':
-    app.run(port=5555, debug=True)
+    app.run(debug=True)
 

@@ -1,85 +1,165 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const AddForm = () => {
-  const [userData, setUserData] = useState({ username: '', password: '' });
-  const [taskData, setTaskData] = useState({ taskName: '', description: '' });
-  const [categoryData, setCategoryData] = useState({ categoryName: '' });
+function AddForm() {
+  const [task, setTask] = useState('');
+  const [priority, setPriority] = useState('');
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('');
+  const [newCategory, setNewCategory] = useState('');
+  const [user, setUser] = useState('');
+  const [users, setUsers] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [message, setMessage] = useState('');
 
-  const handleUserSubmit = (e) => {
-    e.preventDefault();
-    // Implement logic to send user registration data to the backend API
-    console.log('Add User:', userData);
+  useEffect(() => {
+    fetchUsers();
+    fetchCategories();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/users');
+      const data = await response.json();
+      setUsers(data);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
   };
 
-  const handleTaskSubmit = (e) => {
-    e.preventDefault();
-    // Implement logic to send task data to the backend API
-    console.log('Add Task:', taskData);
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/categories');
+      const data = await response.json();
+      setCategories(data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
   };
 
-  const handleCategorySubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Implement logic to send category data to the backend API
-    console.log('Add Category:', categoryData);
+    try {
+      // Check if all required fields are provided
+      if (!task || !description || !priority || !category || !user) {
+        throw new Error('Missing required fields');
+      }
+
+      let categoryId = category;
+      // Check if the selected category is an existing category or a new one
+      const existingCategory = categories.find(cat => cat.id === category);
+      if (!existingCategory) {
+        // If category is not found, create a new category
+        const response = await fetch('http://127.0.0.1:5000/categories', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name: category }),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to add category');
+        }
+        categoryId = data.id;
+        // Fetch updated list of categories
+        fetchCategories();
+      }
+
+      const response = await fetch(`http://127.0.0.1:5000/users/${user}/tasks`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title: task, description, priority, category_id: categoryId }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to add task');
+      }
+      setMessage('Task added successfully!');
+      // Reset form fields
+      setTask('');
+      setPriority('');
+      setDescription('');
+      setCategory('');
+      setUser('');
+    } catch (error) {
+      setMessage(error.message);
+    }
+  };
+
+  const handleNewCategorySubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (!newCategory) {
+        throw new Error('New category name is required');
+      }
+      const response = await fetch('http://127.0.0.1:5000/categories', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: newCategory }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to add category');
+      }
+      // Fetch updated list of categories
+      fetchCategories();
+      // Reset new category input field
+      setNewCategory('');
+    } catch (error) {
+      console.error('Error adding new category:', error);
+    }
   };
 
   return (
     <div>
-      <form onSubmit={handleUserSubmit}>
-        <h2>Add User</h2>
-        <label>
-          Username:
-          <input
-            type="text"
-            value={userData.username}
-            onChange={(e) => setUserData({ ...userData, username: e.target.value })}
-          />
-        </label>
-        <label>
-          Password:
-          <input
-            type="password"
-            value={userData.password}
-            onChange={(e) => setUserData({ ...userData, password: e.target.value })}
-          />
-        </label>
-        <button type="submit">Add User</button>
-      </form>
-
-      <form onSubmit={handleTaskSubmit}>
-        <h2>Add Task</h2>
-        <label>
-          Task Name:
-          <input
-            type="text"
-            value={taskData.taskName}
-            onChange={(e) => setTaskData({ ...taskData, taskName: e.target.value })}
-          />
-        </label>
-        <label>
-          Description:
-          <textarea
-            value={taskData.description}
-            onChange={(e) => setTaskData({ ...taskData, description: e.target.value })}
-          />
-        </label>
+      <h2>Add Task</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Title:</label>
+          <input type="text" value={task} onChange={(e) => setTask(e.target.value)} required />
+        </div>
+        <div>
+          <label>Description:</label>
+          <textarea value={description} onChange={(e) => setDescription(e.target.value)} required />
+        </div>
+        <div>
+          <label>Priority:</label>
+          <input type="text" value={priority} onChange={(e) => setPriority(e.target.value)} required />
+        </div>
+        <div>
+          <label>Category:</label>
+          <select value={category} onChange={(e) => setCategory(e.target.value)} required>
+            <option value="">Select category</option>
+            {categories.map(cat => (
+              <option key={cat.id} value={cat.id}>{cat.name}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label>User:</label>
+          <select value={user} onChange={(e) => setUser(e.target.value)} required>
+            <option value="">Select user</option>
+            {users.map(usr => (
+              <option key={usr.id} value={usr.id}>{usr.username}</option>
+            ))}
+          </select>
+        </div>
         <button type="submit">Add Task</button>
       </form>
-
-      <form onSubmit={handleCategorySubmit}>
-        <h2>Add Category</h2>
-        <label>
-          Category Name:
-          <input
-            type="text"
-            value={categoryData.categoryName}
-            onChange={(e) => setCategoryData({ ...categoryData, categoryName: e.target.value })}
-          />
-        </label>
-        <button type="submit">Add Category</button>
+      <form onSubmit={handleNewCategorySubmit}>
+        <div>
+          <label>New Category:</label>
+          <input type="text" value={newCategory} onChange={(e) => setNewCategory(e.target.value)} required />
+        </div>
+        <button type="submit">Add New Category</button>
       </form>
+      <p>{message}</p>
     </div>
   );
-};
+}
 
 export default AddForm;
