@@ -5,10 +5,10 @@ function AddForm() {
   const [priority, setPriority] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
-  const [newCategory, setNewCategory] = useState('');
   const [user, setUser] = useState('');
   const [users, setUsers] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [newCategory, setNewCategory] = useState('');
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -62,7 +62,7 @@ function AddForm() {
         }
         categoryId = data.id;
         // Fetch updated list of categories
-        fetchCategories();
+        await fetchCategories();
       }
 
       const response = await fetch(`http://127.0.0.1:5000/users/${user}/tasks`, {
@@ -128,7 +128,12 @@ function AddForm() {
         </div>
         <div>
           <label>Priority:</label>
-          <input type="text" value={priority} onChange={(e) => setPriority(e.target.value)} required />
+          <select value={priority} onChange={(e) => setPriority(e.target.value)} required>
+            <option value="">Select priority</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
         </div>
         <div>
           <label>Category:</label>

@@ -1,21 +1,19 @@
-
-
 import React, { useState } from 'react';
 
-
-function AddUser() {
+function SignIn() {
   const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/users', {
+      const response = await fetch('http://127.0.0.1:5000/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username }),
+        body: JSON.stringify({ username, password }),
       });
       if (!response.ok) {
         throw new Error('Username already in use');
@@ -25,18 +23,24 @@ function AddUser() {
       setMessage(error.message);
     }
   };
-
+  
   return (
     <div>
-      <h2>Add User</h2>
+      <h2>Sign In</h2>
       <form onSubmit={handleSubmit}>
-        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-        <button type="submit">Add User</button>
+        <div>
+          <label>Username:</label>
+          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+        </div>
+        <div>
+          <label>Password:</label>
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        </div>
+        <button type="submit">Sign In</button>
       </form>
       <p>{message}</p>
     </div>
   );
 }
 
-
-export default AddUser; 
+export default SignIn;

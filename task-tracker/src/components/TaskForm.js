@@ -1,127 +1,87 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 function TaskForm() {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [priority, setPriority] = useState('');
-  const [category, setCategory] = useState('');
-  const [categories, setCategories] = useState([]);
-  const [newCategory, setNewCategory] = useState('');
-  const [message, setMessage] = useState('');
+  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    fetchCategories();
+    fetchTasks();
   }, []);
 
-  const fetchCategories = async () => {
+  const fetchTasks = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/categories');
-      const categoriesData = await response.json();
-      setCategories(categoriesData);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('http://127.0.0.1:5000/tasks', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ title, description, priority, category }),
-      });
+      const response = await fetch('http://127.0.0.1:5000/tasks');
       const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to add task');
-      }
-      setMessage('Task added successfully!');
-      // Clear form fields
-      setTitle('');
-      setDescription('');
-      setPriority('');
-      setCategory('');
+      setTasks(data);
     } catch (error) {
-      setMessage(error.message);
+      console.error('Error fetching tasks:', error);
     }
   };
 
-  const handleNewCategorySubmit = async (e) => {
-    e.preventDefault();
+  const fetchUserName = async (userId) => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/categories', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: newCategory }),
-      });
+      const response = await fetch(`http://127.0.0.1:5000/users/${userId}`);
       const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to add category');
-      }
-      setMessage('Category added successfully!');
-      // Clear new category input field
-      setNewCategory('');
-      // Fetch categories again to update the list
-      fetchCategories();
+      return data.username;
     } catch (error) {
-      setMessage(error.message);
+      console.error('Error fetching user:', error);
+      return ''; // Return an empty string in case of error
     }
   };
 
-  const handlePriorityChange = (e) => {
-    const selectedPriority = e.target.value;
-    // Check if the selected priority is one of the predefined options
-    if (['high', 'medium', 'low'].includes(selectedPriority)) {
-      setPriority(selectedPriority);
-    } else {
-      // If not, reset priority to empty string
-      setPriority('');
+  const fetchCategoryData = async (categoryId) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:5000/categories/${categoryId}`);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching category:', error);
+      return { id: null, name: 'Unknown', previous_category: null }; // Return default data in case of error
     }
   };
 
   return (
     <div>
-      <h2>Add Task</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Title:</label>
-          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
-        </div>
-        <div>
-          <label>Description:</label>
-          <textarea value={description} onChange={(e) => setDescription(e.target.value)} required />
-        </div>
-        <div>
-          <label>Priority:</label>
-          <select value={priority} onChange={handlePriorityChange} required>
-            <option value="">Select priority</option>
-            <option value="high">High</option>
-            <option value="medium">Medium</option>
-            <option value="low">Low</option>
-          </select>
-        </div>
-        <div>
-          <label>Category:</label>
-          <select value={category} onChange={(e) => setCategory(e.target.value)} required>
-            <option value="">Select category</option>
-            {categories.map(cat => (
-              <option key={cat.id} value={cat.id}>{cat.name}</option>
-            ))}
-          </select>
-        </div>
-        <button type="submit">Add Task</button>
-      </form>
-      <p>{message}</p>
+      <h2>Tasks and Users</h2>
+      {tasks.map((task) => (
+        <Task key={task.id} task={task} fetchUserName={fetchUserName} fetchCategoryData={fetchCategoryData} />
+      ))}
+    </div>
+  );
+}
 
-      <h2>Add New Category</h2>
-      <form onSubmit={handleNewCategorySubmit}>
-        <input type="text" value={newCategory} onChange={(e) => setNewCategory(e.target.value)} required />
-        <button type="submit">Add Category</button>
-      </form>
+function Task({ task, fetchUserName, fetchCategoryData }) {
+  const [username, setUsername] = useState('');
+  const [categoryData, setCategoryData] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const name = await fetchUserName(task.user_id);
+        setUsername(name);
+      } catch (error) {
+        console.error('Error fetching username:', error);
+      }
+
+      try {
+        const data = await fetchCategoryData(task.category_id);
+        setCategoryData(data);
+      } catch (error) {
+        console.error('Error fetching category data:', error);
+      }
+    };
+
+    fetchData();
+  }, [task, fetchUserName, fetchCategoryData]);
+
+  return (
+    <div>
+      <h3>Task: {task.title}</h3>
+      <p><strong>Description:</strong> {task.description}</p>
+      <p><strong>Priority:</strong> {task.priority}</p>
+      <p><strong>Category:</strong> {categoryData.previous_category ? categoryData.previous_category.name : 'None'}</p>
+      <p><strong>User:</strong> {username}</p>
+      <Link to={`/update/${task.id}`}>Update Task</Link> {/* Link to UpdateForm.js */}
     </div>
   );
 }

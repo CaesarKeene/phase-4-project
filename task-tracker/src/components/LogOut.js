@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 function LogOut() {
   const [users, setUsers] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState('');
+  const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -23,6 +24,10 @@ function LogOut() {
     try {
       const response = await fetch(`http://127.0.0.1:5000/users/${selectedUserId}`, {
         method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password }),
       });
       if (!response.ok) {
         throw new Error('Failed to log out');
@@ -43,6 +48,10 @@ function LogOut() {
           <option key={user.id} value={user.id}>{user.username}</option>
         ))}
       </select>
+      <div>
+        <label>Password:</label>
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      </div>
       <button onClick={handleLogOut}>Log Out</button>
       <p>{message}</p>
     </div>
