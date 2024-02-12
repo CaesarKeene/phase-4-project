@@ -10,7 +10,7 @@ This is a task tracker application that allows you to keep track of your tasks t
 2. SQL Alchemy
 3. Python
 4. SQL
-5. Alembic
+5. Flask
 ## Author and License 
 'CaesarKeene' & 'BRAVIN842'
 
