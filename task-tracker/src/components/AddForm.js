@@ -45,7 +45,7 @@ function AddForm() {
       }
 
       let categoryId = category;
-      // Check if the selected category is an existing category or a new one
+      
       const existingCategory = categories.find(cat => cat.id === category);
       if (!existingCategory) {
         // If category is not found, create a new category

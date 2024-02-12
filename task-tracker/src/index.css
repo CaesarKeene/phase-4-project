@@ -1,18 +1,18 @@
-/* Add this CSS to your stylesheet or in your component's style block */
+
 
 nav {
-  background-color: #0074cc; /* Replace with your preferred blue color */
+  background-color: #0074cc; 
   padding: 10px;
   color: white;
   display: flex;
-  flex-direction: column; /* Stack items vertically */
-  align-items: center; /* Center items horizontally */
+  flex-direction: column; 
+  align-items: center; 
 }
 
 .logo {
-  font-size: 24px; /* Adjust the font size as needed */
+  font-size: 24px; 
   font-weight: bold;
-  margin-bottom: 10px; /* Optional spacing between the logo and the navigation links */
+  margin-bottom: 10px; 
 }
 
 ul {
@@ -39,19 +39,17 @@ input {
 button {
   padding: 5px 10px;
   background-color: rgb(250, 248, 248);
-  color: #0074cc; /* Same as the background color for contrast */
+  color: #0074cc; 
   font-weight: bold;
   cursor: pointer;
 }
 
-/* Optional: Style for active link */
+
 a.active {
   border-bottom: 2px solid rgb(248, 9, 9);
 }
 
-/* Add this CSS to style your TaskForm and Task components as cards */
 
-/* Styles for TaskForm container */
 div {
   max-width: 800px;
   margin: 0 auto;
@@ -62,7 +60,7 @@ h2 {
   text-align: center;
 }
 
-/* Styles for Task card */
+
 div > div {
   border: 1px solid #817878;
   border-radius: 4px;
@@ -82,7 +80,7 @@ strong {
   font-weight: bold;
 }
 
-/* Style the Link button */
+
 Link {
   display: inline-block;
   padding: 8px 16px;
@@ -98,10 +96,10 @@ Link:hover {
   background-color: #0056b3;
 }
 
-/* add form style */
 
 
-/* Form styles */
+
+
 form {
   margin-bottom: 20px;
 }
@@ -142,7 +140,7 @@ button:hover {
   background-color: #0056b3;
 }
 
-/* Message paragraph */
+
 p {
   margin-top: 10px;
   color: #000000;

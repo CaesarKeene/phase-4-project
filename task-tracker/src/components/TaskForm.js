@@ -25,7 +25,7 @@ function TaskForm() {
       return data.username;
     } catch (error) {
       console.error('Error fetching user:', error);
-      return ''; // Return an empty string in case of error
+      return ''; 
     }
   };
 
@@ -36,7 +36,7 @@ function TaskForm() {
       return data;
     } catch (error) {
       console.error('Error fetching category:', error);
-      return { id: null, name: 'Unknown', previous_category: null }; // Return default data in case of error
+      return { id: null, name: 'Unknown', previous_category: null }; 
     }
   };
 
