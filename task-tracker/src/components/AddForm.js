@@ -18,7 +18,7 @@ function AddForm() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/users');
+      const response = await fetch('https://task-tracker-wgqn.onrender.com/users');
       const data = await response.json();
       setUsers(data);
     } catch (error) {
@@ -28,7 +28,7 @@ function AddForm() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/categories');
+      const response = await fetch('https://task-tracker-wgqn.onrender.com/categories');
       const data = await response.json();
       setCategories(data);
     } catch (error) {
@@ -49,7 +49,7 @@ function AddForm() {
       const existingCategory = categories.find(cat => cat.id === category);
       if (!existingCategory) {
         // If category is not found, create a new category
-        const response = await fetch('http://127.0.0.1:5000/categories', {
+        const response = await fetch('https://task-tracker-wgqn.onrender.com/categories', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ function AddForm() {
         await fetchCategories();
       }
 
-      const response = await fetch(`http://127.0.0.1:5000/users/${user}/tasks`, {
+      const response = await fetch(`https://task-tracker-wgqn.onrender.com/users/${user}/tasks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ function AddForm() {
       if (!newCategory) {
         throw new Error('New category name is required');
       }
-      const response = await fetch('http://127.0.0.1:5000/categories', {
+      const response = await fetch('https://task-tracker-wgqn.onrender.com/categories', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

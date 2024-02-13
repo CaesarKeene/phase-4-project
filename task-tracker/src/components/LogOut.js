@@ -12,7 +12,7 @@ function LogOut() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/users');
+      const response = await fetch('https://task-tracker-wgqn.onrender.com/users');
       const data = await response.json();
       setUsers(data);
     } catch (error) {
@@ -22,7 +22,7 @@ function LogOut() {
 
   const handleLogOut = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/users/${selectedUserId}`, {
+      const response = await fetch(`https://task-tracker-wgqn.onrender.com/users/${selectedUserId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

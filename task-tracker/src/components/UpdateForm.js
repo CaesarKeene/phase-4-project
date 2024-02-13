@@ -9,7 +9,7 @@ function UpdateForm() {
   useEffect(() => {
     const fetchTask = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/tasks/${id}`);
+        const response = await fetch(`https://task-tracker-wgqn.onrender.com/tasks/${id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch task');
         }
@@ -26,7 +26,7 @@ function UpdateForm() {
 
   const handleUpdateTask = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/tasks/${id}`, {
+      const response = await fetch(`https://task-tracker-wgqn.onrender.com/tasks/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ function UpdateForm() {
 
   const handleDeleteTask = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/tasks/${id}`, {
+      const response = await fetch(`https://task-tracker-wgqn.onrender.com/tasks/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -60,7 +60,7 @@ function UpdateForm() {
 
   const handleDeleteCategory = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/categories/${task.category_id}`, {
+      const response = await fetch(`https://task-tracker-wgqn.onrender.com/categories/${task.category_id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {

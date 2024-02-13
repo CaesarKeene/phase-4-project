@@ -10,7 +10,7 @@ function TaskForm() {
 
   const fetchTasks = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/tasks');
+      const response = await fetch('https://task-tracker-wgqn.onrender.com/tasks');
       const data = await response.json();
       setTasks(data);
     } catch (error) {
@@ -20,7 +20,7 @@ function TaskForm() {
 
   const fetchUserName = async (userId) => {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/users/${userId}`);
+      const response = await fetch(`https://task-tracker-wgqn.onrender.com/users/${userId}`);
       const data = await response.json();
       return data.username;
     } catch (error) {
@@ -31,7 +31,7 @@ function TaskForm() {
 
   const fetchCategoryData = async (categoryId) => {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/categories/${categoryId}`);
+      const response = await fetch(`https://task-tracker-wgqn.onrender.com/categories/${categoryId}`);
       const data = await response.json();
       return data;
     } catch (error) {
